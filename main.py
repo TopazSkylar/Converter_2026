@@ -1,4 +1,5 @@
 from tkinter import *
+import all_constants as c
 
 class Converter():
     """"
@@ -9,7 +10,6 @@ class Converter():
         """
         Temperature converter GUI
         """
-
 
         self.temp_frame = Frame(padx=10, pady=10)
         self.temp_frame.grid()
@@ -34,43 +34,83 @@ class Converter():
                                 )
         self.temp_entry.grid(row=2, padx=10, pady=10)
 
-        error = "Please entera number"
-        self.temp_error = Label(self.temp_frame, text=error,
-                                fg="#9C0000")
-        self.temp_error.grid(row=3)
+        error = "Please enter a number"
+        self.answer_error = Label(self.temp_frame, text=error,
+                                  fg="#004C99", font=("Arial", "14", "bold"))
+        self.answer_error.grid(row=3)
 
         # Conversion, help and history / export buttons
         self.button_frame = Frame(self.temp_frame)
         self.button_frame.grid(row=4)
 
-        self.to_celsius_button = Button(self.button_frame,
-                                        text="To Celsius",
-                                        bg="#990099",
-                                        fg="#ffffff",
-                                        font=("Arial", "12", "bold"), width=12)
-        self.to_celsius_button.grid(row=0, column=0, padx=5, pady=5)
+        # button list (button text | bg color | command | row | column)
+        button_details_list = [
+            ["To Celsius", "#990099", lambda:self.check_temp(c.ABS_ZERO_FAHRENHEIT), 0, 0],
+            ["To Fahrenheit", "#009900", lambda:self.check_temp(c.ABS_ZERO_CELSIUS), 0, 1],
+            ["Help / Info", "#CC6600", "", 1, 0],
+            ["History / Export", "#004C99", "", 1, 1],
+        ]
 
-        self.to_celsius_button = Button(self.button_frame,
-                                        text="To Fahrenheit",
-                                        bg="#990099",
-                                        fg="#ffffff",
-                                        font=("Arial", "12", "bold"), width=12)
-        self.to_celsius_button.grid(row=0, column=1, padx=5, pady=5)
+        # List to hold buttons once they have been made
+        self.button_ref_list = []
 
-        self.to_celsius_button = Button(self.button_frame,
-                                        text="To Celsius",
-                                        bg="#990099",
-                                        fg="#ffffff",
-                                        font=("Arial", "12", "bold"), width=12)
-        self.to_celsius_button.grid(row=0, column=2, padx=5, pady=5)
+        for item in button_details_list:
+            self.make_button = Button(self.button_frame,
+                                      text=item[0], bg=item[1],
+                                      fg="#FFFFFF", font=("Arial", "13", "bold"),
+                                      width=12, command=item[2])
+            self.make_button.grid(row=item[3], column=item[4], padx=5, pady=5)
 
-        self.to_celsius_button = Button(self.button_frame,
-                                        text="To Celsius",
-                                        bg="#990099",
-                                        fg="#ffffff",
-                                        font=("Arial", "12", "bold"), width=12)
-        self.to_celsius_button.grid(row=0, column=3, padx=5, pady=5)
-    # main routine
+            self.button_ref_list.append(self.make_button)
+
+        # retrieve 'history / export' button and disable it at the start
+        self.to_history_button = self.button_ref_list[3].config(state=DISABLED)
+
+
+    def check_temp(self, min_temp):
+        """
+        Checks temperature is valid and either invokes calculation
+        function or shows a custom error
+        """
+
+        print("Min Temp: ", min_temp)
+
+        # Retrieve temperature to be converted
+        to_convert = self.temp_entry.get()
+        print("To Convert: ", to_convert)
+
+        # Reset label and entry box (if we had an error)
+        self.answer_error.config(fg="004C99", font=("Arial", "13", "bold"))
+        self.temp_entry.config(bg="#FFFFFFF")
+
+        error = f"Enter and number more than / equal to {min_temp}"
+        has_error = "no"
+        try:
+            to_convert = float(to_convert)
+            if to_convert >= min_temp:
+                error = ""
+                self.convert(min_temp, to_convert)
+            else:
+                error = "Too Low"
+
+        except ValueError:
+            error = "Please enter a number"
+
+        # display the error if necessary
+        if error != "":
+            self.answer_error.config(text=error, fg="#9C0000")
+            self.temp_entry.config(bg="#F4CCCC")
+            self.temp_entry.delete(0, END)
+
+    def convert(self, min_temp, to_convert):
+
+        if min_temp == c.ABS_ZERO_CELSIUS:
+            self.answer_error.config(text=f"Converting {to_convert}°C to °F")
+        else:
+            self.answer_error.config(text=f"Converting {to_convert}°F to °C")
+
+
+# main routine
 
 
 if __name__ == "__main__":
