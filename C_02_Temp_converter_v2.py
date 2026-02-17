@@ -57,7 +57,7 @@ class Converter():
         for item in button_details_list:
             self.make_button = Button(self.button_frame,
                                       text=item[0], bg=item[1],
-                                      fg="#FFFFFF", font=("Arial", "13", "bold"),
+                                      fg="#FFFFFF", font=("Arial", "12", "bold"),
                                       width=12, command=item[2])
             self.make_button.grid(row=item[3], column=item[4], padx=5, pady=5)
 
@@ -71,36 +71,35 @@ class Converter():
         """
         Checks temperature is valid and either invokes calculation
         function or shows a custom error
+        :param min_temp:
+        :return:
         """
-
-        print("Min Temp: ", min_temp)
 
         # Retrieve temperature to be converted
         to_convert = self.temp_entry.get()
-        print("To Convert: ", to_convert)
 
         # Reset label and entry box (if we had an error)
-        self.answer_error.config(fg="004C99", font=("Arial", "13", "bold"))
-        self.temp_entry.config(bg="#FFFFFFF")
+        self.answer_error.config(fg="#004C99", font=("Arial", "13", "bold"))
+        self.temp_entry.config(bg="#FFFFFF")
 
-        error = f"Enter and number more than / equal to {min_temp}"
-        has_error = "no"
+        error = f"Enter a number more than / equal to {min_temp}"
+        has_errors = "no"
 
 
+        # checks that amount to be converted is a number above absolute zero
         try:
             to_convert = float(to_convert)
             if to_convert >= min_temp:
-                error = ""
                 self.convert(min_temp, to_convert)
             else:
-                error = "Too Low"
+                has_errors = "yes"
 
         except ValueError:
-            error = "Please enter a number"
+            has_errors = "yes"
 
         # display the error if necessary
-        if error != "":
-            self.answer_error.config(text=error, fg="#9C0000")
+        if has_errors == "yes":
+            self.answer_error.config(text=error, fg="#9C0000", font=("Arial", "10", "bold"))
             self.temp_entry.config(bg="#F4CCCC")
             self.temp_entry.delete(0, END)
 
