@@ -53,7 +53,7 @@ class Converter:
             ["To Celsius", "#990099", lambda:self.check_temp(c.ABS_ZERO_FAHRENHEIT), 0, 0],
             ["To Fahrenheit", "#009900", lambda:self.check_temp(c.ABS_ZERO_CELSIUS), 0, 1],
             ["Help / Info", "#CC6600", self.to_help, 1, 0],
-            ["History / Export", "#004C99", "", self.to_history, 1, 1],
+            ["History / Export", "#004C99", self.to_history, 1, 1],
         ]
 
         # List to hold buttons once they have been made
@@ -194,7 +194,7 @@ class DisplayHelp:
             self.dismiss_button = Button(self.help_frame,
                                          font=("Arial", 12, "bold"),
                                          text="Dismiss", bg="#CC6600",
-                                         fg="#FFFFFFF",
+                                         fg="#FFFFFF",
                                          command=partial(self.close_help, partner))
             self.dismiss_button.grid(row=2, padx= 10, pady=10)
 

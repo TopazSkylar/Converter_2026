@@ -71,15 +71,15 @@ class DisplayHelp:
                      "calculation history and export it into a text " \
                      "file, please click the 'History / Export' button."
 
-        self.help_heading_label = Label(self.help_frame,
+        self.help_heading_text = Label(self.help_frame,
                                         text=help_text, wraplength=350,
                                         justify="left", bg=background)
-        self.help_heading_label.grid(row=1, padx=10)
+        self.help_heading_text.grid(row=1, padx=10)
 
         self.dismiss_button = Button(self.help_frame,
-                                     font=("Arial", "12", "bold"),
+                                     font=("Arial", 12, "bold"),
                                      text="Dismiss", bg="#CC6600",
-                                     fg="#FFFFFFF",
+                                     fg="#FFFFFF",
                                      command=partial(self.close_help, partner))
         self.dismiss_button.grid(row=2, padx= 10, pady=10)
 

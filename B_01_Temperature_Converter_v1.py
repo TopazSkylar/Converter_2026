@@ -185,9 +185,9 @@ class DisplayHelp:
             self.help_heading_label.grid(row=1, padx=10)
 
             self.dismiss_button = Button(self.help_frame,
-                                         font=("Arial", "12", "bold"),
+                                         font=("Arial", 12, "bold"),
                                          text="Dismiss", bg="#CC6600",
-                                         fg="#FFFFFFF",
+                                         fg="#FFFFFF",
                                          command=partial(self.close_help, partner))
             self.dismiss_button.grid(row=2, padx= 10, pady=10)
 
